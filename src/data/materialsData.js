@@ -1,4 +1,4 @@
-const _apiUrl = "/api/materials";
+const _apiUrl = "http://localhost:5173/api/materials";
 
 export const getMaterials = () => {
   return fetch(_apiUrl).then((r) => r.json());
