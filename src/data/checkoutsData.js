@@ -19,3 +19,7 @@ export const postCheckout = (checkoutObj) => {
         body: JSON.stringify(checkoutObj)
     })
 }
+
+export const getOverdueCheckouts = () => {
+    return fetch(`${_apiUrl}/overdue`).then(res => res.json())
+}

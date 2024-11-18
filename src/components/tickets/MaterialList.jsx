@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { getMaterials, removeMaterial } from "../../data/materialsData";
 import { Link } from "react-router-dom";
+import { FilterBar } from "./FilterBar";
 
 export default function MaterialList() {
   const [materials, setMaterials] = useState([]);
+  const [filteredMaterials, setFilter] = useState([])
   const [remove, setRemove] = useState(false)
 
   useEffect(() => {
     getMaterials().then(setMaterials);
   }, [remove]);
+
+  useEffect(() => {
+    const copy = [...materials]
+    setFilter(copy)
+  }, [materials])
 
   const handleRemove = (e) => {
     const materialId = e.target.dataset.id
@@ -23,6 +30,9 @@ export default function MaterialList() {
         <h4>Materials</h4>
         <Link to="/materials/create">Add</Link>
       </div>
+      <div>
+        <FilterBar materials={materials} filteredMaterials={filteredMaterials} setFilter={setFilter} />
+      </div>
       <Table>
         <thead>
           <tr>
@@ -34,7 +44,7 @@ export default function MaterialList() {
           </tr>
         </thead>
         <tbody>
-          {materials.map((m) => (
+          {filteredMaterials.map((m) => (
             <tr key={`materials-${m.id}`}>
               <th scope="row">{m.id}</th>
               <td>{m.materialName}</td>
