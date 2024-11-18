@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react"
-import { getAllCheckouts } from "../../data/checkoutsData"
+import { getAllCheckouts, returnCheckout } from "../../data/checkoutsData"
 import { Table } from "reactstrap"
 
 export const CheckoutList = () => {
     const [checkouts, setCheckouts] = useState([])
+    const [wasReturned, setWasReturned] = useState(false)
 
     useEffect(() => {
         getAllCheckouts().then(res => setCheckouts(res))
-    }, [])
+    }, [wasReturned])
+
+    const handleReturn = (e) => {
+        const id = e.target.dataset.id
+        returnCheckout(id).then(()=> setWasReturned(r => !r))
+    }
 
     return (
         <div className="container">
@@ -31,7 +37,8 @@ export const CheckoutList = () => {
               <td>{co.material.materialName}</td>
               <td>{co.patron.firstName} {co.patron.lastName}</td>
               <td>{co.checkoutDate.split("T")[0]}</td>
-              <td>{co.returnDate || "not returned"}</td>
+              <td>{co.returnDate?.split("T")[0] || "not returned"}</td>
+              <td>{!co.returnDate && <button data-id={co.id} onClick={handleReturn}>return</button> }</td>
             </tr>
           ))}
         </tbody>

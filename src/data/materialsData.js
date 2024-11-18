@@ -22,3 +22,7 @@ export const removeMaterial = (id) => {
     method: 'PUT'
   })
 }
+
+export const getavailableMaterials = () => {
+  return fetch(`${_apiUrl}/available`).then(res => res.json())
+}
