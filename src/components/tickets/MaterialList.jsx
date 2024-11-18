@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { Table } from "reactstrap";
-import { getMaterials } from "../../data/materialsData";
+import { getMaterials, removeMaterial } from "../../data/materialsData";
 import { Link } from "react-router-dom";
 
 export default function MaterialList() {
   const [materials, setMaterials] = useState([]);
+  const [remove, setRemove] = useState(false)
 
   useEffect(() => {
     getMaterials().then(setMaterials);
-  }, []);
+  }, [remove]);
+
+  const handleRemove = (e) => {
+    const materialId = e.target.dataset.id
+    removeMaterial(materialId).then(() => setRemove(r => !r))
+
+  }
 
   return (
     <div className="container">
@@ -35,6 +42,9 @@ export default function MaterialList() {
               <td>{m.genre.name}</td>
               <td>
                 <Link to={`${m.id}`}>Details</Link>
+              </td>
+              <td>
+                <button data-id={m.id} onClick={handleRemove}>Remove</button>
               </td>
             </tr>
           ))}
