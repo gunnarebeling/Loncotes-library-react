@@ -10,6 +10,7 @@ function App() {
           <NavbarBrand href="/">📖 Loncotes County Library</NavbarBrand>
           <NavItem>
             <NavLink href="/materials">Materials</NavLink>
+            <NavLink href="/patrons">Patrons</NavLink>
           </NavItem>
         </Nav>
       </Navbar>
